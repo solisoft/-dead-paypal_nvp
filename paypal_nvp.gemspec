@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
   s.description = %q{Paypal NVP API Class.}
   s.email = %q{o.bonnaure@directinteractive.com}
   s.extra_rdoc_files = ["lib/paypal_nvp.rb", "README.rdoc"]
-  s.files = ["lib/paypal_nvp.rb", "Manifest", "Rakefile", "README.rdoc", "paypal_nvp.gemspec"]
+  s.files = ["init.rb", "lib/paypal_nvp.rb", "Manifest", "paypal_nvp.gemspec", "Rakefile", "README.rdoc"]
   s.has_rdoc = true
   s.homepage = %q{http://github.com/solisoft/paypal_nvp}
   s.rdoc_options = ["--line-numbers", "--inline-source", "--title", "Paypal_nvp", "--main", "README.rdoc"]
