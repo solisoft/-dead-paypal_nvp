@@ -10,7 +10,6 @@ class PaypalNVP
     @user = config[type]["user"]
     @pass = config[type]["pass"]
     @cert = config[type]["cert"]
-    reset
   end
 
   def call_paypal(data)
