@@ -1,0 +1,36 @@
+= Paypal NVP
+
+Paypal NVP allow to connect your Ruby on Rails application to the Paypal NVP API.
+
+== Installation
+
+The recommended way is that you get the gem:
+
+  sudo gem install paypal_nvp
+
+PaypalNVP need a paypal.yml file in your config directory.
+
+  # All those fields are mandatory
+
+  sandbox:
+    url:  "https://api-3t.sandbox.paypal.com/nvp"
+    user: "o.bonn_1237393081_biz_api1.solisoft.net"
+    pass: "1237393093"
+    cert:  "AU2Yv5COwWPCfeYLv34Z766F-gfNAzX6LaQE6VZkHMRq35Gmite-bMXu"
+
+  live:
+    url:  "https://api-3t.paypal.com/nvp"
+    user: "o.bonn_1237393081_biz_api1.solisoft.net"
+    pass: "1237393093"
+    cert:  "AU2Yv5COwWPCfeYLv34Z766F-gfNAzX6LaQE6VZkHMRq35Gmite-bMXu"
+  
+== Example usage
+
+  p = PaypalNVP.new(true) # true mean "use sandbox"
+  data = {
+    :method => "MyPaypalMethod",
+    :amt => 55
+    # other params needed
+  }
+  result = p.call_paypal(data) # will return a hash
+  puts result["ACK"] # Success
