@@ -13,18 +13,11 @@ class PaypalNVP
     reset
   end
 
-  def add_value(key, value)
-    @values[key] = value
-  end
-
-  def reset
-    @values = { "USER" => @user, "PWD" => @pass, "SIGNATURE" => @cert, "VERSION" => "50.0" }
-  end
-
-  def call_paypal
+  def call_paypal(data)
+    data.merge!({ "USER" => @user, "PWD" => @pass, "SIGNATURE" => @cert, "VERSION" => "50.0" })
     qs = []
-    @values.each do |key, value|
-      qs << "#{key}=#{url_encode(value)}"
+    data.each do |key, value|
+      qs << "#{key.to_s.upcase}=#{url_encode(value)}"
     end
     qs = "?#{qs * "&"}"    
 
