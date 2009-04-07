@@ -19,7 +19,7 @@ class PaypalNVP
       qs << "#{key.to_s.upcase}=#{url_encode(value)}"
     end
     qs = "?#{qs * "&"}"    
-
+    
     uri = URI.parse(@url)
     http = Net::HTTP.new(uri.host, uri.port)
     http.use_ssl = true
