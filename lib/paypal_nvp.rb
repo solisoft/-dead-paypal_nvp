@@ -26,7 +26,7 @@ class PaypalNVP
     http.verify_mode = OpenSSL::SSL::VERIFY_NONE
 
     response = http.start {
-      http.request_get(uri.path) {|res|
+      http.request_get(uri.path + qs) {|res|
         res
       }
     }
