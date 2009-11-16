@@ -6,8 +6,7 @@ Paypal NVP allow to connect your Ruby on Rails application to the Paypal NVP API
 
 The recommended way is that you get the gem:
 
-  $ gem sources -a http://gems.github.com (you only have to do this once)
-  $ sudo gem install solisoft-paypal_nvp
+  $ sudo gem install paypal_nvp
 
 PaypalNVP need a paypal.yml file in your config directory.
 
