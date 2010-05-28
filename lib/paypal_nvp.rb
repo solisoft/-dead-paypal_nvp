@@ -1,3 +1,5 @@
+require 'cgi'
+
 class PaypalNVP
   def self.included(base)
     base.extend ClassMethods
@@ -34,7 +36,7 @@ class PaypalNVP
     if response.kind_of? Net::HTTPSuccess
       response.body.split("&").each do |element|
         a = element.split("=")
-        data[a[0]] = a[1] if a.size == 2
+        data[a[0]] = CGI.unescape(a[1]) if a.size == 2
       end
     end 
     data
