@@ -17,6 +17,7 @@ class PaypalNVP
 
   def call_paypal(data)
     data.merge!({ "USER" => @user, "PWD" => @pass, "SIGNATURE" => @cert, "VERSION" => "50.0" })
+    data.merge!(extras)
     qs = []
     data.each do |key, value|
       qs << "#{key.to_s.upcase}=#{url_encode(value)}"
