@@ -5,13 +5,14 @@ class PaypalNVP
     base.extend ClassMethods
   end
     
-  def initialize(sandbox = false)
+  def initialize(sandbox = false, extras = {})
     config = YAML.load_file("#{RAILS_ROOT}/config/paypal.yml")
     type = sandbox ? "sandbox" : "live"
     @url  = config[type]["url"]
     @user = config[type]["user"]
     @pass = config[type]["pass"]
     @cert = config[type]["cert"]
+    @extras = extras
   end
 
   def call_paypal(data)

@@ -6,7 +6,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 1.2") if s.respond_to? :required_rubygems_version=
   s.authors = ["Olivier BONNAURE - Direct Interactive LLC"]
-  s.date = %q{2009-11-16}
+  s.date = %q{2010-05-28}
   s.description = %q{Paypal NVP API Class.}
   s.email = %q{o.bonnaure@directinteractive.com}
   s.extra_rdoc_files = ["lib/paypal_nvp.rb", "README.rdoc"]
