@@ -1,5 +1,3 @@
-require 'cgi'
-
 class PaypalNVP
   def self.included(base)
     base.extend ClassMethods
@@ -20,7 +18,7 @@ class PaypalNVP
     data.merge!(@extras)
     qs = []
     data.each do |key, value|
-      qs << "#{key.to_s.upcase}=#{url_encode(value)}"
+      qs << "#{key.to_s.upcase}=#{URI.escape(value)}"
     end
     qs = "?#{qs * "&"}"    
     
@@ -45,4 +43,3 @@ class PaypalNVP
   end
     
 end
-
