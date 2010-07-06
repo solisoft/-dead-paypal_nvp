@@ -8,7 +8,8 @@ The recommended way is that you get the gem:
 
   $ sudo gem install paypal_nvp
 
-PaypalNVP need a paypal.yml file in your config directory.
+PaypalNVP need an optional paypal.yml file in your config directory (Rails App).
+Or you can specify parameter within the constructor
 
   # All those fields are mandatory
 
@@ -27,9 +28,11 @@ PaypalNVP need a paypal.yml file in your config directory.
 == Example usage
 
   p = PaypalNVP.new(true) # true mean "use sandbox"
+  # Or you can specify paramaters directly
+  # p = PaypalNVP.new(true, { :user => "o.bonn_1237393081_biz_api1.solisoft.net", :pass => "1237393093", :cert => "AU2Yv5COwWPCfeYLv34Z766F-gfNAzX6LaQE6VZkHMRq35Gmite-bMXu", :url => "https://api-3t.sandbox.paypal.com/nvp" })
   data = {
     :method => "MyPaypalMethod",
-    :amt => 55
+    :amt => "55"
     # other params needed
   }
   result = p.call_paypal(data) # will return a hash

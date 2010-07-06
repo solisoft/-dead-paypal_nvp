@@ -1,15 +1,25 @@
+require "net/https"
+require "cgi"
+
 class PaypalNVP
   def self.included(base)
     base.extend ClassMethods
   end
     
   def initialize(sandbox = false, extras = {})
-    config = YAML.load_file("#{RAILS_ROOT}/config/paypal.yml")
     type = sandbox ? "sandbox" : "live"
-    @url  = config[type]["url"]
-    @user = config[type]["user"]
-    @pass = config[type]["pass"]
-    @cert = config[type]["cert"]
+    config = YAML.load_file("#{RAILS_ROOT}/config/paypal.yml") rescue nil
+    if config
+      @url  = config[type]["url"] 
+      @user = config[type]["user"]
+      @pass = config[type]["pass"]
+      @cert = config[type]["cert"]
+    else
+      @url  = extras[:url]
+      @user = extras[:user]
+      @pass = extras[:pass]
+      @cert = extras[:cert]
+    end
     @extras = extras
   end
 
@@ -32,7 +42,7 @@ class PaypalNVP
         res
       }
     }
-    data = {}
+    data = { :response => response }
     if response.kind_of? Net::HTTPSuccess
       response.body.split("&").each do |element|
         a = element.split("=")
