@@ -31,7 +31,7 @@ class PaypalNVP
     data.each do |key, value|
       qs << "#{key.to_s.upcase}=#{URI.escape(value)}"
     end
-    qs = "?#{qs * "&"}"    
+    qs = "#{qs * "&"}"    
     
     uri = URI.parse(@url)
     http = Net::HTTP.new(uri.host, uri.port)
@@ -49,7 +49,7 @@ class PaypalNVP
 		end
 
     response = http.start {
-      http.request_get(uri.path + qs) {|res|
+      http.request_post(uri.path, qs) {|res|
         res
       }
     }
