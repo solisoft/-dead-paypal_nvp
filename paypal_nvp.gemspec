@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{paypal_nvp}
-  s.version = "0.1.8"
+  s.version = "0.1.9"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 1.2") if s.respond_to? :required_rubygems_version=
   s.authors = ["Olivier BONNAURE - Direct Interactive LLC"]
@@ -15,7 +15,7 @@ Gem::Specification.new do |s|
   s.rdoc_options = ["--line-numbers", "--inline-source", "--title", "Paypal_nvp", "--main", "README.rdoc"]
   s.require_paths = ["lib"]
   s.rubyforge_project = %q{paypal_nvp}
-  s.rubygems_version = %q{1.3.5}
+  s.rubygems_version = %q{1.7.2}
   s.summary = %q{Paypal NVP API Class.}
 
   if s.respond_to? :specification_version then

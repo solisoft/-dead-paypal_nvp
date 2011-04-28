@@ -9,7 +9,7 @@ class PaypalNVP
   def initialize(sandbox = false, extras = {})
     type = sandbox ? "sandbox" : "live"
     config = YAML.load_file("#{RAILS_ROOT}/config/paypal.yml") rescue nil
-    @require_ssl_certs = (extras[:require_ssl_certs]!=nil)? extras[:require_ssl_certs] : true
+    @require_ssl_certs = extras[:require_ssl_certs].nil?
     if config
       @url  = config[type]["url"] 
       @user = config[type]["user"]
@@ -29,24 +29,24 @@ class PaypalNVP
     data.merge!(@extras)
     qs = []
     data.each do |key, value|
-      qs << "#{key.to_s.upcase}=#{URI.escape(value)}"
+      qs << "#{key.to_s.upcase}=#{URI.escape(value.to_s)}"
     end
     qs = "#{qs * "&"}"    
     
     uri = URI.parse(@url)
     http = Net::HTTP.new(uri.host, uri.port)
     http.use_ssl = true
-#    http.verify_mode = OpenSSL::SSL::VERIFY_NONE
-		rootCA = '/etc/ssl/certs'
-		if File.directory? rootCA
-			http.ca_path = rootCA
-			http.verify_mode = OpenSSL::SSL::VERIFY_PEER
-			http.verify_depth = 5
-		else
-			raise "missing ssl certs. Cannot secure paypal communication" if (@require_ssl_certs == true)
-			puts "WARNING: no ssl certs found. Paypal communication will be insecure. DO NOT DEPLOY"
-			http.verify_mode = OpenSSL::SSL::VERIFY_NONE
-		end
+#   http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+    rootCA = '/etc/ssl/certs'
+    if File.directory? rootCA
+      http.ca_path = rootCA
+      http.verify_mode = OpenSSL::SSL::VERIFY_PEER
+      http.verify_depth = 5
+    else
+      #raise "missing ssl certs. Cannot secure paypal communication" if @require_ssl_certs == true
+      puts "WARNING: no ssl certs found. Paypal communication will be insecure. DO NOT DEPLOY"
+      http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+    end
 
     response = http.start {
       http.request_post(uri.path, qs) {|res|
