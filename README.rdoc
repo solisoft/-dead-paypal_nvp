@@ -38,3 +38,7 @@ Or you can specify parameter within the constructor
   }
   result = p.call_paypal(data) # will return a hash
   puts result["ACK"] # Success
+
+== PAYPAL API Documentation
+
+https://cms.paypal.com/us/cgi-bin/?cmd=_render-content&content_ID=developer/howto_api_reference
