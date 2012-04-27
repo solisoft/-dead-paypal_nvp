@@ -8,7 +8,7 @@ class PaypalNVP
     
   def initialize(sandbox = false, extras = {})
     type = sandbox ? "sandbox" : "live"
-    config = YAML.load_file("#{RAILS_ROOT}/config/paypal.yml") rescue nil
+    config = YAML.load_file("#{Rails.root}/config/paypal.yml") rescue nil
     @require_ssl_certs = extras[:require_ssl_certs].nil?
     
     # by default we use the 50.0 API version
