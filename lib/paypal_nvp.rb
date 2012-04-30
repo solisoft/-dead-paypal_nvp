@@ -1,5 +1,6 @@
 require "net/https"
 require "cgi"
+require "logger"
 
 class PaypalNVP
   def self.included(base)
@@ -9,8 +10,10 @@ class PaypalNVP
   def initialize(sandbox = false, extras = {}, rootCA = '/etc/ssl/certs')
     type = sandbox ? "sandbox" : "live"
     config = YAML.load_file("#{Rails.root}/config/paypal.yml") rescue nil
+    @logger = defined?(Rails.logger) && Rails.logger || Logger.new(STDOUT)
 
-    # by default we use the 50.0 API version
+    # By default we use the 50.0 API version.
+    # At 30 Apr 2012, version 87.0 and provides additional shipping information.
     extras[:version] ||= "50.0"
 
     if config
@@ -49,7 +52,7 @@ class PaypalNVP
       http.verify_mode = OpenSSL::SSL::VERIFY_PEER
       http.verify_depth = 5
     else
-      puts "WARNING: no ssl certs found. Paypal communication will be insecure. DO NOT DEPLOY"
+      logger.warn "[PaypalNVP] No ssl certs found. Paypal communication will be insecure. DO NOT DEPLOY"
       http.verify_mode = OpenSSL::SSL::VERIFY_NONE
     end
 
@@ -67,5 +70,4 @@ class PaypalNVP
     end
     data
   end
-
 end
