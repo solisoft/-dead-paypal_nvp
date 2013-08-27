@@ -30,7 +30,7 @@ class PaypalNVP
       @rootCA = extras[:rootca]
     end
     @extras = extras
-    @rootCA = rootCA || '/etc/ssl/certs'
+    @rootCA = @rootCA || '/etc/ssl/certs'
   end
 
   def call_paypal(data)
