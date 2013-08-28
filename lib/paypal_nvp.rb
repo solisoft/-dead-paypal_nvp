@@ -7,7 +7,7 @@ class PaypalNVP
     base.extend ClassMethods
   end
 
-  def initialize(sandbox = false, extras = {}, rootCA = '/etc/ssl/certs')
+  def initialize(sandbox = false, extras = {})
     type = sandbox ? "sandbox" : "live"
     config = YAML.load_file("#{Rails.root}/config/paypal.yml") rescue nil
     @logger = defined?(Rails.logger) && Rails.logger || Logger.new(STDOUT)
@@ -21,14 +21,16 @@ class PaypalNVP
       @user = config[type]["user"]
       @pass = config[type]["pass"]
       @cert = config[type]["cert"]
+      @rootCA = config[type]["rootca"]
     else
       @url  = extras[:url]
       @user = extras[:user]
       @pass = extras[:pass]
       @cert = extras[:cert]
+      @rootCA = extras[:rootca]
     end
     @extras = extras
-    @rootCA = rootCA
+    @rootCA = @rootCA || '/etc/ssl/certs'
   end
 
   def call_paypal(data)
