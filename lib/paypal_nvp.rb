@@ -38,7 +38,7 @@ class PaypalNVP
     data.merge!(@extras)
     qs = []
     data.each do |key, value|
-      qs << "#{key.to_s.upcase}=#{URI.escape(value.to_s)}"
+      qs << "#{key.to_s.upcase}=#{URI.escape(value.to_s, /\+/)}"
     end
     qs = "#{qs * "&"}"
 
