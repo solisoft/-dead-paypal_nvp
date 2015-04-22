@@ -2,11 +2,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{paypal_nvp}
-  s.version = "0.2.2"
+  s.version = "0.2.8"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 1.2") if s.respond_to? :required_rubygems_version=
   s.authors = ["Olivier BONNAURE - Direct Interactive LLC"]
-  s.date = %q{2010-05-28}
+  s.date = %q{2015-04-22}
   s.description = %q{Paypal NVP API Class.}
   s.email = %q{o.bonnaure@directinteractive.com}
   s.extra_rdoc_files = ["lib/paypal_nvp.rb", "README.rdoc"]
