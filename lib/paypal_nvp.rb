@@ -17,7 +17,7 @@ class PaypalNVP
     extras[:version] ||= "50.0"
 
     if config
-      @url  = config[type]["url"] 
+      @url  = config[type]["url"]
       @user = config[type]["user"]
       @pass = config[type]["pass"]
       @cert = config[type]["cert"]
@@ -31,6 +31,17 @@ class PaypalNVP
     end
     @extras = extras
     @rootCA = @rootCA || '/etc/ssl/certs'
+
+
+    if config
+      # Get the timeout options from the config
+      @open_timeout = config[type]["open_timeout"]
+      @read_timeout = config[type]["read_timeout"]
+    else
+      # Get the timeout options from the extra parameter
+      @open_timeout = extras[:open_timeout]
+      @read_timeout = extras[:read_timeout]
+    end
   end
 
   def call_paypal(data)
@@ -49,7 +60,7 @@ class PaypalNVP
       http.ca_path = @rootCA
       http.verify_mode = OpenSSL::SSL::VERIFY_PEER
       http.verify_depth = 5
-    elsif File.exists?(@rootCA)
+    elsif File.exist?(@rootCA)
       http.ca_file = @rootCA
       http.verify_mode = OpenSSL::SSL::VERIFY_PEER
       http.verify_depth = 5
@@ -57,6 +68,9 @@ class PaypalNVP
       @logger.warn "[PaypalNVP] No ssl certs found. Paypal communication will be insecure. DO NOT DEPLOY"
       http.verify_mode = OpenSSL::SSL::VERIFY_NONE
     end
+
+    http.open_timeout = @open_timeout
+    http.read_timeout = @read_timeout
 
     response = http.start {
       http.request_post(uri.path, qs) {|res|
