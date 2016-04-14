@@ -7,6 +7,9 @@ class PaypalNVP
     base.extend ClassMethods
   end
 
+  DEFAULT_OPEN_TIMEOUT = 60
+  DEFAULT_READ_TIMEOUT = 60
+
   def initialize(sandbox = false, extras = {})
     type = sandbox ? "sandbox" : "live"
     config = YAML.load_file("#{Rails.root}/config/paypal.yml") rescue nil
@@ -35,8 +38,8 @@ class PaypalNVP
     end
 
     # If network timeout is not set above, we simply default both of them to 60s
-    @open_timeout ||= 60
-    @read_timeout ||= 60
+    @open_timeout ||= DEFAULT_OPEN_TIMEOUT
+    @read_timeout ||= DEFAULT_READ_TIMEOUT
 
     @extras = extras
     @rootCA = @rootCA || '/etc/ssl/certs'
