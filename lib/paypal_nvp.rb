@@ -33,6 +33,11 @@ class PaypalNVP
       @open_timeout = extras.delete(:open_timeout)
       @read_timeout = extras.delete(:read_timeout)
     end
+
+    # If network timeout is not set above, we simply default both of them to 60s
+    @open_timeout ||= 60
+    @read_timeout ||= 60
+
     @extras = extras
     @rootCA = @rootCA || '/etc/ssl/certs'
   end
