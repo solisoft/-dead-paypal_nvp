@@ -22,26 +22,19 @@ class PaypalNVP
       @pass = config[type]["pass"]
       @cert = config[type]["cert"]
       @rootCA = config[type]["rootca"]
+      @open_timeout = config[type]["open_timeout"]
+      @read_timeout = config[type]["read_timeout"]
     else
       @url  = extras[:url]
       @user = extras[:user]
       @pass = extras[:pass]
       @cert = extras[:cert]
       @rootCA = extras[:rootca]
+      @open_timeout = extras.delete(:open_timeout)
+      @read_timeout = extras.delete(:read_timeout)
     end
     @extras = extras
     @rootCA = @rootCA || '/etc/ssl/certs'
-
-
-    if config
-      # Get the timeout options from the config
-      @open_timeout = config[type]["open_timeout"]
-      @read_timeout = config[type]["read_timeout"]
-    else
-      # Get the timeout options from the extra parameter
-      @open_timeout = extras[:open_timeout]
-      @read_timeout = extras[:read_timeout]
-    end
   end
 
   def call_paypal(data)
