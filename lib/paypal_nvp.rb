@@ -7,7 +7,7 @@ class PaypalNVP
     base.extend ClassMethods
   end
 
-  DEFAULT_OPEN_TIMEOUT = 60
+  DEFAULT_OPEN_TIMEOUT = nil
   DEFAULT_READ_TIMEOUT = 60
 
   def initialize(sandbox = false, extras = {})
@@ -37,7 +37,7 @@ class PaypalNVP
       @read_timeout = extras.delete(:read_timeout)
     end
 
-    # If network timeout is not set above, we simply default both of them to 60s
+    # If network timeout is not set above, we simply default both of them to default values
     @open_timeout ||= DEFAULT_OPEN_TIMEOUT
     @read_timeout ||= DEFAULT_READ_TIMEOUT
 
