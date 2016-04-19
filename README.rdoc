@@ -34,14 +34,14 @@ Or you can specify parameter within the constructor
   p = PaypalNVP.new(true) # true mean "use sandbox"
 
   # Or you can specify paramaters directly
-  # p = PaypalNVP.new(true, {
-      :user => "o.bonn_1237393081_biz_api1.solisoft.net",
-      :pass => "1237393093",
-      :cert => "AU2Yv5COwWPCfeYLv34Z766F-gfNAzX6LaQE6VZkHMRq35Gmite-bMXu",
-      :url => "https://api-3t.sandbox.paypal.com/nvp",
-      :open_timeout => 3,
-      :read_timeout => 60,
-    })
+  p = PaypalNVP.new(true, {
+    :user => "o.bonn_1237393081_biz_api1.solisoft.net",
+    :pass => "1237393093",
+    :cert => "AU2Yv5COwWPCfeYLv34Z766F-gfNAzX6LaQE6VZkHMRq35Gmite-bMXu",
+    :url => "https://api-3t.sandbox.paypal.com/nvp",
+    :open_timeout => 3,
+    :read_timeout => 60,
+  })
 
   data = {
     :version => "50.0", # Default is 50.0 as well... but now you can specify it
