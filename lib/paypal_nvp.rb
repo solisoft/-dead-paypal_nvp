@@ -7,6 +7,9 @@ class PaypalNVP
     base.extend ClassMethods
   end
 
+  DEFAULT_OPEN_TIMEOUT = nil
+  DEFAULT_READ_TIMEOUT = 60
+
   def initialize(sandbox = false, extras = {})
     type = sandbox ? "sandbox" : "live"
     config = YAML.load_file("#{Rails.root}/config/paypal.yml") rescue nil
@@ -17,18 +20,27 @@ class PaypalNVP
     extras[:version] ||= "50.0"
 
     if config
-      @url  = config[type]["url"] 
+      @url  = config[type]["url"]
       @user = config[type]["user"]
       @pass = config[type]["pass"]
       @cert = config[type]["cert"]
       @rootCA = config[type]["rootca"]
+      @open_timeout = config[type]["open_timeout"]
+      @read_timeout = config[type]["read_timeout"]
     else
       @url  = extras[:url]
       @user = extras[:user]
       @pass = extras[:pass]
       @cert = extras[:cert]
       @rootCA = extras[:rootca]
+      @open_timeout = extras.delete(:open_timeout)
+      @read_timeout = extras.delete(:read_timeout)
     end
+
+    # If network timeout is not set above, we simply default both of them to default values
+    @open_timeout ||= DEFAULT_OPEN_TIMEOUT
+    @read_timeout ||= DEFAULT_READ_TIMEOUT
+
     @extras = extras
     @rootCA = @rootCA || '/etc/ssl/certs'
   end
@@ -49,7 +61,7 @@ class PaypalNVP
       http.ca_path = @rootCA
       http.verify_mode = OpenSSL::SSL::VERIFY_PEER
       http.verify_depth = 5
-    elsif File.exists?(@rootCA)
+    elsif File.exist?(@rootCA)
       http.ca_file = @rootCA
       http.verify_mode = OpenSSL::SSL::VERIFY_PEER
       http.verify_depth = 5
@@ -57,6 +69,9 @@ class PaypalNVP
       @logger.warn "[PaypalNVP] No ssl certs found. Paypal communication will be insecure. DO NOT DEPLOY"
       http.verify_mode = OpenSSL::SSL::VERIFY_NONE
     end
+
+    http.open_timeout = @open_timeout
+    http.read_timeout = @read_timeout
 
     response = http.start {
       http.request_post(uri.path, qs) {|res|
