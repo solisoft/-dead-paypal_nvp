@@ -10,7 +10,7 @@ You can install the gem in one of two ways. The first is using the gem install c
 
 And the second is using Bundler. Simply add `gem 'paypal_nvp'` to your gemfile, then install with the following command:
 
-  $ gem install paypal_nvp
+  $ bundle install
 
 PaypalNVP need an optional paypal.yml file in your config directory (Rails App).
 Or you can specify parameter within the constructor
