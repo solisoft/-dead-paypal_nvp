@@ -46,10 +46,13 @@ class PaypalNVP
   end
 
   def call_paypal(data)
-    data.merge!({ "USER" => @user, "PWD" => @pass, "SIGNATURE" => @cert })
-    data.merge!(@extras)
+    # items in the data hash should take precedence over preconfigured values, 
+    # to allow for maximum flexibility:
+    params = @extras.dup
+    params.merge!({ "USER" => @user, "PWD" => @pass, "SIGNATURE" => @cert })
+    params.merge!(data)
     qs = []
-    data.each do |key, value|
+    params.each do |key, value|
       qs << "#{key.to_s.upcase}=#{URI.escape(value.to_s, /\+/)}"
     end
     qs = "#{qs * "&"}"
